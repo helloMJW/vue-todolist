@@ -11,16 +11,26 @@
     <div id="root">
         <div>
             <input v-model="inputValue" type="text" />
-            <button @click="handleSubmit">提交 test</button>
+            <button @click="handleSubmit">提交</button>
         </div>
         <ul>
-            <li v-for="(item, index) of list" :key="index">
-                {{item}}
-            </li>
+            <todo-item
+                v-for="(item, index) of list"
+                :key="index"
+                :content="item"
+            >
+
+            </todo-item>
         </ul>
     </div>
     
     <script>
+        // 组件分为全局和局部, 可以给组件传参数 :content 为参数 props 接收参数 
+        Vue.component('todo-item', {
+            props: ['content'],
+            template: '<li>{{content}}</li>'
+        })
+        
         new Vue({
             el: "#root",
             data: {
