@@ -18,6 +18,8 @@
                 v-for="(item, index) of list"
                 :key="index"
                 :content="item"
+                :index="index"
+                @delete="handleDelete"
             >
 
             </todo-item>
@@ -27,8 +29,13 @@
     <script>
         // 组件分为全局和局部, 可以给组件传参数 :content 为参数 props 接收参数 
         Vue.component('todo-item', {
-            props: ['content'],
-            template: '<li>{{content}}</li>'
+            props: ['content', 'index'],
+            template: '<li @click="handleClick">{{content}}</li>',
+            methods: {
+                handleClick: function() {
+                    this.$emit('delete', this.index)
+                }
+            }
         })
         
         new Vue({
@@ -41,6 +48,9 @@
                 handleSubmit: function() {
                     this.list.push(this.inputValue)
                     this.inputValue = ' '
+                },
+                handleDelete: function(index) {
+                    this.list.splice(index, 1)
                 }
             }
         })
